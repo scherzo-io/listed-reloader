@@ -59,8 +59,6 @@
     "react-player": "^1.13.0",
     "react-responsive-carousel": "^3.1.50",
     "react-slick": "^0.28.1",
-    "react-soundcloud": "^0.1.1",
-    "react-soundcloud-embed": "^1.0.3",
     "remarkable": "^2.0.0",
     "slick-carousel": "^1.8.1",
     "typeface-nunito": "0.0.72"
