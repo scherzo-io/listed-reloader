@@ -1,7 +1,5 @@
 const postcssPresetEnv = require(`postcss-preset-env`)
 
-ignorecase = true
-
 module.exports = {
   siteMetadata: {
     title: `Listed Productions`,
@@ -43,20 +41,21 @@ module.exports = {
         clientsClaim: true
       }
     },
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `listed`,
-        short_name: `listed`,
-        start_url: `/`,
-        background_color: `#00C2BD`,
-        theme_color: `#00C2BD`,
-        // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
-        // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
-        display: `standalone`,
-        icon: `${__dirname}/static/images/logo.jpg` // This path is relative to the root of the site.
-      }
-    },
+    // Temporarily disabled due to sharp issues on Apple Silicon
+    // {
+    //   resolve: `gatsby-plugin-manifest`,
+    //   options: {
+    //     name: `listed`,
+    //     short_name: `listed`,
+    //     start_url: `/`,
+    //     background_color: `#00C2BD`,
+    //     theme_color: `#00C2BD`,
+    //     // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
+    //     // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+    //     display: `standalone`,
+    //     icon: `${__dirname}/static/images/logo.jpg` // This path is relative to the root of the site.
+    //   }
+    // },
 
     // Add static assets before markdown files
     {
@@ -74,9 +73,9 @@ module.exports = {
       }
     },
 
-    // images
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
+    // images - Temporarily disabled due to sharp issues on Apple Silicon
+    // `gatsby-plugin-sharp`,
+    // `gatsby-transformer-sharp`,
 
     {
       resolve: `gatsby-transformer-remark`,
@@ -84,14 +83,15 @@ module.exports = {
         plugins: [
           // gatsby-remark-relative-images must
           // go before gatsby-remark-images
-          `gatsby-remark-relative-images`,
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 800,
-              linkImagesToOriginal: false
-            }
-          },
+          // Temporarily disabled due to sharp issues on Apple Silicon
+          // `gatsby-remark-relative-images`,
+          // {
+          //   resolve: `gatsby-remark-images`,
+          //   options: {
+          //     maxWidth: 800,
+          //     linkImagesToOriginal: false
+          //   }
+          // },
           {
             resolve: `@raae/gatsby-remark-oembed`,
             options: {
@@ -143,14 +143,6 @@ module.exports = {
       }
     },
     `gatsby-plugin-sitemap`,
-    {
-      resolve: `gatsby-plugin-netlify-cms`,
-      options: {
-        modulePath: `${__dirname}/src/cms/cms.js`,
-        stylesPath: `${__dirname}/src/cms/admin.css`,
-        enableIdentityWidget: true
-      }
-    },
     `gatsby-plugin-netlify`, // make sure to keep it last in the array
   ]
 }
