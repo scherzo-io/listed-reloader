@@ -138,6 +138,7 @@ img {
   top: -100%;
   position: absolute;
   filter: blur(8px);
+  animation: slideDown 2s ease-in-out;
 }
 .anim.active {
   transition-timing-function: cubic-bezier(.21,.31,1,.27);
@@ -145,6 +146,15 @@ img {
   transition-duration: 1500ms;
   left: 40%;
   top: 100%;
+}
+
+@keyframes slideDown {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
 }
 
 .item {

@@ -53,6 +53,28 @@ const ContentfulArtist = ({ data }) => {
     ? `https:${artist.featuredImage.file.url}` 
     : '/images/default-artist.jpg';
 
+  // Generate random color and position for animation
+  const randomColor = () => {
+    const colors = [
+      'rgb(248, 236, 33)',
+      'rgb(255, 119, 0)',
+      'rgb(255, 0, 0)',
+      'rgb(255, 0, 255)',
+      'rgb(0, 255, 255)',
+      'rgb(0, 255, 0)',
+      'rgb(33, 236, 248)'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+  
+  const randomLeft = () => {
+    return Math.floor(Math.random() * 80 + 10) + '%';
+  };
+  
+  const randomHeight = () => {
+    return Math.floor(Math.random() * 40 + 30) + '%';
+  };
+
   return (
     <Layout>
       <div>
@@ -103,22 +125,23 @@ const ContentfulArtist = ({ data }) => {
 
         <main>
           <article itemScope itemType="http://schema.org/BlogPosting">
-            {/* Hero Image Section */}
-            <div className="card rainbow">
+            {/* Hero Image Section - Made Smaller */}
+            <div className="card rainbow" style={{ maxHeight: '400px', overflow: 'hidden' }}>
               <div className="htoone" id="demo">
-                <div className="img2 shadow item">
+                <div className="img2 shadow item" style={{ maxHeight: '400px' }}>
                   <div 
                     className="anim active" 
                     style={{ 
-                      backgroundColor: 'rgb(248, 236, 33)', 
-                      left: '77%', 
-                      height: '53%' 
+                      backgroundColor: randomColor(), 
+                      left: randomLeft(), 
+                      height: randomHeight() 
                     }}
                   ></div>
                   <img 
                     className="thisone" 
                     src={imageUrl} 
                     alt={artist.title}
+                    style={{ maxHeight: '400px', objectFit: 'cover' }}
                   />
                 </div>
               </div>

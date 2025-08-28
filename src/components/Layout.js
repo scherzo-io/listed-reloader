@@ -22,6 +22,17 @@ export default ({ children, meta, title }) => {
               image
             }
           }
+          contentfulArtists: allContentfulArtist(
+            sort: { fields: [title], order: ASC }
+          ) {
+            edges {
+              node {
+                id
+                title
+                slug
+              }
+            }
+          }
           artists: allMarkdownRemark(
             filter: { fields: { contentType: { eq: "artists" } } }
             sort: { order: ASC, fields: [frontmatter___title] }
@@ -55,7 +66,8 @@ export default ({ children, meta, title }) => {
         }
       `}
       render={data => {
-        const artists = data.artists
+        // Use Contentful artists for the nav menu
+        const artists = data.contentfulArtists || data.artists
         const { siteTitle, socialMediaCard, googleTrackingId } =
             data.settingsYaml || {},
           subNav = {

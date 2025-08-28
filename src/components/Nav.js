@@ -46,7 +46,20 @@ export class Navigation extends Component {
                   {children}
                 </Link>
                 <ul>
-                  {items?.map(item => <li key={item.node.frontmatter.title}><Link to={item.node.fields.slug}>{item.node.frontmatter.title}</Link></li>)}
+                  {items?.map(item => {
+                    // Handle both Contentful and Markdown structure
+                    const title = item.node.title || item.node.frontmatter?.title || '';
+                    const slug = item.node.slug 
+                      ? `/artists/${item.node.slug}` 
+                      : item.node.fields?.slug || '';
+                    const key = item.node.id || title;
+                    
+                    return (
+                      <li key={key}>
+                        <Link to={slug}>{title}</Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
               : <Link
