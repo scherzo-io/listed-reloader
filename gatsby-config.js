@@ -156,15 +156,6 @@ module.exports = {
       }
     },
     `gatsby-plugin-sitemap`,
-    {
-      resolve: 'gatsby-plugin-webpack-bundle-analyzer',
-      options: {
-        production: true,
-        disable: !process.env.ANALYZE_BUNDLE,
-        generateStatsFile: true,
-        analyzerMode: 'static',
-      },
-    },
     `gatsby-plugin-netlify`, // make sure to keep it last in the array
   ]
 }

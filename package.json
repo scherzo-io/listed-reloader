@@ -73,8 +73,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,css,scss,md}\"",
     "lint": "eslint src/ --ext .js,.jsx",
     "lint:fix": "eslint src/ --ext .js,.jsx --fix",
-    "test": "npm run lint && npm run build",
-    "analyze": "ANALYZE_BUNDLE=true gatsby build"
+    "test": "npm run lint && npm run build"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
@@ -83,12 +82,10 @@
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
-    "gatsby-plugin-webpack-bundle-analyzer": "^1.0.5",
     "path-browserify": "^1.0.1",
     "prettier": "^1.19.1",
     "process": "^0.11.10",
     "react-social-icons": "^4.1.0",
-    "sass": "^1.91.0",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "sass": "^1.91.0"
   }
 }
