@@ -1,3 +1,5 @@
+# Create a .env.development file with these variables:
 CONTENTFUL_SPACE_ID=tnmpb33y98ua
 CONTENTFUL_ACCESS_TOKEN=yy1MT34uffo8vn_6N7Q02BqkYZ-BltesXraG5IbuQUk
 CONTENTFUL_HOST=cdn.contentful.com
+# Use preview.contentful.com for preview API

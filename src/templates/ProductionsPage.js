@@ -37,20 +37,20 @@ export const ProductionsPageTemplate = ({
       </BackgroundVideo>
     </section> */}
 
-    <section className="section" class="marginFix">
+    <section className="section marginFix">
       <div className="container">
         <h1>Recent Events Gallery</h1>
         <Gallery images={gallery} />
       </div>
     </section>
 
-    <section className="section" class="marginFix">
+    <section className="section marginFix">
       <div className="container">
         <Content source={section2} />
       </div>
     </section>
 
-    <section className="section" class="marginFix">
+    <section className="section marginFix">
       <div className="container">
         <Popup>
           <Content source={section1} />

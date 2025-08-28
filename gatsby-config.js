@@ -1,5 +1,10 @@
 const postcssPresetEnv = require(`postcss-preset-env`)
 
+// Load environment variables
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Listed Productions`,
@@ -7,6 +12,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-image`,
     `gatsby-transformer-yaml`,
     {
       resolve: `gatsby-plugin-google-tagmanager`,
@@ -41,21 +47,20 @@ module.exports = {
         clientsClaim: true
       }
     },
-    // Temporarily disabled due to sharp issues on Apple Silicon
-    // {
-    //   resolve: `gatsby-plugin-manifest`,
-    //   options: {
-    //     name: `listed`,
-    //     short_name: `listed`,
-    //     start_url: `/`,
-    //     background_color: `#00C2BD`,
-    //     theme_color: `#00C2BD`,
-    //     // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
-    //     // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
-    //     display: `standalone`,
-    //     icon: `${__dirname}/static/images/logo.jpg` // This path is relative to the root of the site.
-    //   }
-    // },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `listed`,
+        short_name: `listed`,
+        start_url: `/`,
+        background_color: `#00C2BD`,
+        theme_color: `#00C2BD`,
+        // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
+        // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+        display: `standalone`,
+        icon: `${__dirname}/static/images/logo.jpg` // This path is relative to the root of the site.
+      }
+    },
 
     // Add static assets before markdown files
     {
@@ -73,25 +78,33 @@ module.exports = {
       }
     },
 
-    // images - Temporarily disabled due to sharp issues on Apple Silicon
-    // `gatsby-plugin-sharp`,
-    // `gatsby-transformer-sharp`,
+    // Contentful source
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+        host: process.env.CONTENTFUL_HOST || 'cdn.contentful.com',
+      },
+    },
+
+    // images
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
 
     {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
-          // gatsby-remark-relative-images must
-          // go before gatsby-remark-images
-          // Temporarily disabled due to sharp issues on Apple Silicon
-          // `gatsby-remark-relative-images`,
-          // {
-          //   resolve: `gatsby-remark-images`,
-          //   options: {
-          //     maxWidth: 800,
-          //     linkImagesToOriginal: false
-          //   }
-          // },
+          // gatsby-remark-relative-images removed in Gatsby v4
+          // gatsby-remark-images now works without it
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 800,
+              linkImagesToOriginal: false
+            }
+          },
           {
             resolve: `@raae/gatsby-remark-oembed`,
             options: {

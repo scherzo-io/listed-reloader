@@ -1,11 +1,71 @@
 const _ = require('lodash')
 const path = require('path')
 const { createFilePath } = require('gatsby-source-filesystem')
-const { fmImagesToRelative } = require('gatsby-remark-relative-images')
+// Removed for Gatsby v4 compatibility - gatsby-remark-relative-images v2 doesn't export fmImagesToRelative
+// const { fmImagesToRelative } = require('gatsby-remark-relative-images')
 
-exports.createPages = ({ actions, graphql }) => {
+exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
 
+  // Query both Markdown and Contentful content
+  const result = await graphql(`
+    {
+      allMarkdownRemark(limit: 1000) {
+        edges {
+          node {
+            id
+            frontmatter {
+              template
+              title
+            }
+            fields {
+              slug
+              contentType
+            }
+          }
+        }
+      }
+      allContentfulArtist {
+        edges {
+          node {
+            id
+            slug
+            title
+          }
+        }
+      }
+      contentfulProductions {
+        id
+        title
+      }
+      contentfulContactPage {
+        id
+        title
+      }
+    }
+  `)
+
+  if (result.errors) {
+    result.errors.forEach(e => console.error(e.toString()))
+    return Promise.reject(result.errors)
+  }
+
+  // Create pages from Contentful artists
+  const contentfulArtists = result.data.allContentfulArtist?.edges || []
+  const artistTemplate = path.resolve('./src/templates/ContentfulArtist.js')
+  
+  contentfulArtists.forEach(({ node }) => {
+    createPage({
+      path: `/artists/${node.slug}`,
+      component: artistTemplate,
+      context: {
+        id: node.id,
+        slug: node.slug,
+      },
+    })
+  })
+
+  // Continue with existing markdown page creation
   return graphql(`
     {
       allMarkdownRemark(limit: 1000) {
@@ -64,8 +124,8 @@ exports.createPages = ({ actions, graphql }) => {
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  // convert frontmatter images
-  fmImagesToRelative(node)
+  // convert frontmatter images - not needed in Gatsby v4
+  // fmImagesToRelative(node)
 
   // Create smart slugs
   // https://github.com/Vagr9K/gatsby-advanced-starter/blob/master/gatsby-node.js
@@ -109,3 +169,20 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 
 // Random fix for https://github.com/gatsbyjs/gatsby/issues/5700
 module.exports.resolvableExtensions = () => ['.json']
+
+// Webpack 5 configuration for Node.js polyfills
+exports.onCreateWebpackConfig = ({ actions, stage, plugins }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      fallback: {
+        path: require.resolve('path-browserify'),
+        process: require.resolve('process/browser'),
+      },
+    },
+    plugins: [
+      plugins.provide({
+        process: 'process/browser',
+      }),
+    ],
+  })
+}
