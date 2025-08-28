@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import Layout from '../components/Layout'
 import './EnterPage.css'
 import ra from '../../static/images/ra.png'
 import mainone from '../../static/images/mainone.png'
@@ -8,6 +9,14 @@ import { SocialIcon } from 'react-social-icons';
 
 // Export Template for use in CMS preview
 export const EnterPageTemplate = ({}) =>  (
+  <Layout 
+    meta={{
+      title: 'Listed Productions & Bookings | SF Underground Music',
+      description: 'Listed Productions - San Francisco based underground music collective showcasing cutting-edge electronic music. Artists, events, and bookings.',
+      url: 'https://listedproductions.com'
+    }}
+    title="Listed Productions | Home"
+  >
   <div>
     <div id="wrapper" id='test'>
   <header id="header">
@@ -92,8 +101,9 @@ export const EnterPageTemplate = ({}) =>  (
             <p>&copy; Listed Productions. All rights reserved.</p>
           </footer>
           </header>
-    </div>
-    </div>
+      </div>
+  </div>
+  </Layout>
 )
 
 const EnterPage = ({ data: { page } }) => (

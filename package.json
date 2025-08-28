@@ -68,19 +68,27 @@
     "start": "gatsby clean && npm run develop",
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "clean": "rm -rf .cache public",
+    "clean": "gatsby clean",
     "serve": "gatsby serve",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write \"src/**/*.{js,jsx,css,scss,md}\"",
+    "lint": "eslint src/ --ext .js,.jsx",
+    "lint:fix": "eslint src/ --ext .js,.jsx --fix",
+    "test": "npm run lint && npm run build",
+    "analyze": "ANALYZE_BUNDLE=true gatsby build"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
     "contentful": "^11.7.15",
     "del-cli": "^3.0.1",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "gatsby-plugin-webpack-bundle-analyzer": "^1.0.5",
     "path-browserify": "^1.0.1",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "process": "^0.11.10",
     "react-social-icons": "^4.1.0",
-    "sass": "^1.91.0"
+    "sass": "^1.91.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
