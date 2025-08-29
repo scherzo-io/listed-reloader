@@ -28,16 +28,16 @@ npm install --legacy-peer-deps
 ```
 
 ### 3. Node.js Version
-**IMPORTANT:** Set Node.js version to **18.x**
+**IMPORTANT:** Set Node.js version to **20.x** (LTS until April 2026)
 
 In Vercel dashboard:
 1. Go to Settings → General
-2. Node.js Version: Select `18.x`
+2. Node.js Version: Select `20.x`
 
 Or add to your project root:
 ```json
 // .nvmrc file
-18
+20
 ```
 
 Or in vercel.json:
@@ -45,7 +45,7 @@ Or in vercel.json:
 {
   "build": {
     "env": {
-      "NODE_VERSION": "18"
+      "NODE_VERSION": "20"
     }
   }
 }
@@ -74,7 +74,7 @@ NODE_OPTIONS=--max-old-space-size=4096
 
 1. **General Settings:**
    - Framework Preset: `Gatsby`
-   - Node.js Version: `18.x`
+   - Node.js Version: `20.x`
    - Root Directory: (leave empty)
 
 2. **Build & Development Settings:**
@@ -102,7 +102,7 @@ Create/update `vercel.json` in your project root:
   "installCommand": "npm install --legacy-peer-deps",
   "build": {
     "env": {
-      "NODE_VERSION": "18",
+      "NODE_VERSION": "20",
       "NODE_OPTIONS": "--max-old-space-size=4096"
     }
   },
@@ -154,7 +154,7 @@ NODE_OPTIONS=--max-old-space-size=4096
 3. Redeploy
 
 ### Issue: Sharp installation failures
-**Solution:** Ensure Node 18.x and add to install command:
+**Solution:** Ensure Node 20.x and add to install command:
 ```bash
 npm install --legacy-peer-deps --platform=linux --arch=x64 sharp
 ```
@@ -163,7 +163,7 @@ npm install --legacy-peer-deps --platform=linux --arch=x64 sharp
 
 Before deploying, verify:
 
-- [ ] Node version set to 18.x
+- [ ] Node version set to 20.x
 - [ ] Build command includes `--legacy-peer-deps`
 - [ ] Environment variables are set (CONTENTFUL_*)
 - [ ] vercel.json is committed (if using)
