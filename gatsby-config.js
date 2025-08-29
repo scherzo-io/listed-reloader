@@ -43,7 +43,7 @@ module.exports = {
         // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
         // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
         display: `standalone`,
-        icon: `${__dirname}/static/images/logo.jpg` // This path is relative to the root of the site.
+        icon: `${__dirname}/static/images/llogo.png` // Using square logo (200x200) to fix manifest warning
       }
     },
 
@@ -114,9 +114,14 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sass`,
       options: {
+        sassOptions: {
+          // Use modern Dart Sass API
+          api: 'modern',
+          silenceDeprecations: ['legacy-js-api']
+        },
         postCssPlugins: [
           postcssPresetEnv({
-            browsers: `> 0.5%, last 2 versions, ie 11`
+            // Browsers config moved to .browserslistrc
           })
         ]
       }
@@ -126,7 +131,7 @@ module.exports = {
       options: {
         postCssPlugins: [
           require(`postcss-preset-env`)({
-            browsers: `> 0.5%, last 2 versions, ie 11`
+            // Browsers config moved to .browserslistrc
           })
         ]
       }

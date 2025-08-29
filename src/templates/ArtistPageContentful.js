@@ -25,6 +25,10 @@ const ArtistPageContentful = ({ data: { page } }) => (
 
 export default ArtistPageContentful
 
+// This component is not being used to create pages, so the GraphQL query is commented out
+// to avoid the build warning. If you need to use this as a page template in the future,
+// uncomment the query and add it to gatsby-node.js createPages function.
+/*
 export const pageQuery = graphql`
   query ArtistPageContentful($id: String!) {
     page: markdownRemark(id: { eq: $id }) {
@@ -40,3 +44,4 @@ export const pageQuery = graphql`
     }
   }
 `
+*/
