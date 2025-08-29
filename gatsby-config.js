@@ -121,7 +121,8 @@ module.exports = {
         },
         postCssPlugins: [
           postcssPresetEnv({
-            // Browsers config moved to .browserslistrc
+            // Explicitly disable browsers option to use .browserslistrc
+            browsers: false
           })
         ]
       }
@@ -131,7 +132,8 @@ module.exports = {
       options: {
         postCssPlugins: [
           require(`postcss-preset-env`)({
-            // Browsers config moved to .browserslistrc
+            // Explicitly disable browsers option to use .browserslistrc
+            browsers: false
           })
         ]
       }

@@ -3,9 +3,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import Nav from './Nav'
 import Footer from './Footer'
 
-
-import 'modern-normalize/modern-normalize.css'
-import './globalStyles.css'
+// Global styles are imported in gatsby-browser.js to ensure consistent ordering
 
 export default ({ children, meta, title }) => {
   return (
