@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
+import Seo from '../components/Seo'
 import './EnterPage.css'
 import ra from '../../static/images/ra.png'
 import mainone from '../../static/images/mainone.png'
@@ -9,14 +10,7 @@ import { SocialIcon } from 'react-social-icons';
 
 // Export Template for use in CMS preview
 export const EnterPageTemplate = ({}) =>  (
-  <Layout 
-    meta={{
-      title: 'Listed Productions & Bookings | SF Underground Music',
-      description: 'Listed Productions - San Francisco based underground music collective showcasing cutting-edge electronic music. Artists, events, and bookings.',
-      url: 'https://listedproductions.com'
-    }}
-    title="Listed Productions | Home"
-  >
+  <Layout>
   <div>
     <div id="wrapper" id='test'>
   <header id="header">
@@ -111,6 +105,14 @@ const EnterPage = ({ data: { page } }) => (
 )
 
 export default EnterPage
+
+export const Head = ({ location }) => (
+  <Seo 
+    title="Listed Productions & Bookings | SF Underground Music"
+    description="Listed Productions - San Francisco based underground music collective showcasing cutting-edge electronic music. Artists, events, and bookings."
+    pathname={location.pathname}
+  />
+)
 
 export const pageQuery = graphql`
   query EnterPage($id: String!) {

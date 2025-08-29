@@ -1,8 +1,8 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 import { Link, StaticQuery, graphql } from 'gatsby'
 import _get from 'lodash/get'
 import AlertTriangle from 'react-feather/dist/icons/alert-triangle'
+import Seo from '../components/Seo'
 
 import Layout from '../components/Layout'
 
@@ -17,9 +17,6 @@ const NotFoundPage = ({ children }) => (
     `}
     render={data => (
       <Layout>
-        <Helmet>
-          <title>404 – Page Not Found</title>
-        </Helmet>
         <section className="section thick">
           <div className="container skinny taCenter">
             <p>
@@ -40,3 +37,12 @@ const NotFoundPage = ({ children }) => (
 )
 
 export default NotFoundPage
+
+export const Head = ({ location }) => (
+  <Seo 
+    title="404 – Page Not Found"
+    description="The page you are looking for could not be found."
+    pathname={location.pathname}
+    noindex={true}
+  />
+)

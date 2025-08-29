@@ -7,11 +7,12 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `Listed Productions`,
-    siteUrl: `https://listedproductions.com`
+    siteTitle: `Listed Productions`,
+    siteUrl: `https://listedproductions.com`,
+    siteDescription: `Listed is a SF based initiative that showcases cutting-edge EDM and strives to make it accessible via event productions and an artist agency.`
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    // Removed gatsby-plugin-react-helmet - now using Gatsby Head API
     `gatsby-plugin-image`,
     `gatsby-transformer-yaml`,
     {

@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react'
-import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import Meta from './Meta'
 import Nav from './Nav'
 import Footer from './Footer'
 
@@ -79,29 +77,6 @@ export default ({ children, meta, title }) => {
           }
         return (
           <Fragment>
-            <Helmet
-              defaultTitle={siteTitle}
-              titleTemplate={`%s | ${siteTitle}`}
-            >
-              {title}
-              <link href="https://ucarecdn.com" rel="preconnect" crossorigin />
-              <link rel="dns-prefetch" href="https://ucarecdn.com" />
-              {/* Add font link tags here */}
-            </Helmet>
-
-            <Meta
-              googleTrackingId={googleTrackingId}
-              absoluteImageUrl={
-                socialMediaCard &&
-                socialMediaCard.image &&
-                socialMediaCard.image
-              }
-              {...meta}
-              {...data.settingsYaml}
-            />
-
-
-
             <Nav subNav={subNav} artists={artists} />
 
             <Fragment>{children}</Fragment>
