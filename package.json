@@ -78,13 +78,13 @@
     "ajv": "^8.17.1",
     "contentful": "^11.7.15",
     "del-cli": "^3.0.1",
-    "eslint": "^9.34.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "path-browserify": "^1.0.1",
     "prettier": "^1.19.1",
     "process": "^0.11.10",
-    "react-social-icons": "^4.1.0",
+    "react-social-icons": "^6.1.0",
     "sass": "^1.91.0"
   }
 }
