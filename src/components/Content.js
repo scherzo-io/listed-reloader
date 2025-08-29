@@ -84,12 +84,13 @@ const Content = ({ source, src, className = '' }) => {
   return (
     <Marked
       className={`Content ${className}`}
-      source={encodeMarkdownURIs(source)}
-      renderers={{
-        image: MyImage,
+      components={{
+        img: MyImage,
         html: HtmlBlock
       }}
-    />
+    >
+      {encodeMarkdownURIs(source)}
+    </Marked>
   )
 }
 
