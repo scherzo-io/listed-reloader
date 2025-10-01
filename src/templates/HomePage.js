@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { graphql } from 'gatsby'
 import { Location } from '@reach/router'
-import PostSection from '../components/PostSection'
 import Layout from '../components/Layout'
 import './HomePage.css'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { Carousel } from 'react-responsive-carousel';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 // Export Template for use in CMS preview
 export const HomePageTemplate = ({
-  subT = [],
-  subtitle,
   listedmix,
   listedmixlk,
-  posts = [],
   artists = []
 }) => (
   <Location>
@@ -24,39 +16,20 @@ export const HomePageTemplate = ({
           <section className="section hide">
             <div className="container"></div>
           </section>
-          <section className="section">
-            <div className="container">
-              <PostSection posts={posts} />
-            </div>
-          </section>
           <div>
-            <h1> {listedmix}</h1>
-            <iframe
-              title="listed-playlist"
-              width="100%"
-              height="300"
-              scrolling="no"
-              frameBorder="no"
-              allow="autoplay"
-              src={listedmixlk}
-            ></iframe>
             <div>
               <div className="home-artists-links" style={{}}>
                 <h1>Artists</h1>
-
-                {
-                  (subT = (
-                    <div style={{ textAlign: 'center' }}>
-                      <p>
-                        {artists.map(artist => (
-                          <a style={{ marginRight: '1em' }} key={artist.slug} href={artist.slug}>
-                            {artist.title.trim()}
-                          </a>
-                        ))}
-                      </p>
-                    </div>
-                  ))
-                }
+                
+                <div style={{ textAlign: 'center' }}>
+                  <p>
+                    {artists.map(artist => (
+                      <a style={{ marginRight: '1em' }} key={artist.slug} href={artist.slug}>
+                        {artist.title.trim()}
+                      </a>
+                    ))}
+                  </p>
+                </div>
                 <div className="dropdown">
                   <button
                     className="dropdown-button"
@@ -67,6 +40,18 @@ export const HomePageTemplate = ({
                   <div className="dropdown-list"></div>
                 </div>
               </div>
+              
+              <h1> {listedmix}</h1>
+              <iframe
+                title="listed-playlist"
+                width="100%"
+                height="300"
+                scrolling="no"
+                frameBorder="no"
+                allow="autoplay"
+                src={listedmixlk}
+              ></iframe>
+              
               <div
                 className="ctct-inline-form"
                 data-form-id="77fa4a78-f78b-4c9b-9057-b015694f8ed3"
@@ -97,100 +82,46 @@ function SlideContent({ url }) {
 }
 
 // Export Default BlogIndex for front-end
-const HomePage = ({ data: { page, posts, artists } }) => {
-  console.log(page.frontmatter.featuredImage6);
-
-
-  const settings = {
-    dots: false,
-    arrows: false,
-    fade: true,
-    autoplay: true,
-    autoplaySpeed: 2800,
-    speed: 2800,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
+const HomePage = ({ data: { page, artists, bannerImage, contentfulArtists } }) => {
+  // Get the first banner image from Contentful if it exists
+  const contentfulBanner = bannerImage?.edges?.[0]?.node?.bannerImage?.url;
+  
+  // Use Contentful artists if available, otherwise fall back to markdown
+  const artistsList = contentfulArtists?.edges?.length > 0 
+    ? contentfulArtists.edges.map(artist => ({
+        title: artist.node.title,
+        slug: `/artists/${artist.node.slug}`
+      }))
+    : artists.edges.map(artist => ({
+        title: artist.node.frontmatter.title,
+        slug: artist.node.fields.slug
+      }));
   return (
     <Layout
       meta={page.frontmatter.meta || false}
       title={page.frontmatter.title || false}
     >
       <div className="fixcenter">
-        <Slider {...settings} className="slider">
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage} />
+        {/* Display single banner image from Contentful */}
+        {contentfulBanner ? (
+          <div className="banner-image">
+            <SlideContent url={contentfulBanner} />
           </div>
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage2} />
-          </div>
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage3} />
-          </div>
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage4} />
-          </div>
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage5} />
-          </div>
-          <div className="slide">
-            <SlideContent url={page.frontmatter.featuredImage6} />
-          </div>
-        </Slider>
-        {/* <div className="slider">
-          <div
-            className="slide1"
-            style={{
-              background: `url(${page.frontmatter.featuredImage})no-repeat center`,
-              backgroundSize: 'cover'
-            }}
-          ></div>
-          <div
-            className="slide2"
-            style={{
-              background: `url(${page.frontmatter.featuredImage2})no-repeat center`,
-              backgroundSize: 'cover'
-            }}
-          ></div>
-          <div
-            className="slide3"
-            style={{
-              background: `url(${page.frontmatter.featuredImage3})no-repeat center`,
-              backgroundSize: 'cover'
-            }}
-          ></div>
-          <div
-            className="slide4"
-            style={{
-              background: `url(${page.frontmatter.featuredImage4})no-repeat center`,
-              backgroundSize: 'cover'
-            }}
-          ></div>
-          <div
-            className="slide5"
-            style={{
-              background: `url(${page.frontmatter.featuredImage5})no-repeat center`,
-              backgroundSize: 'cover'
-            }}
-          ></div>
-        </div> */}
+        ) : (
+          // Fallback to first featured image from markdown if no Contentful banner
+          page.frontmatter.featuredImage && (
+            <div className="banner-image">
+              <SlideContent url={page.frontmatter.featuredImage} />
+            </div>
+          )
+        )}
       </div>
-      <h1>Buzz</h1>
 
       <HomePageTemplate
         {...page}
         {...page.fields}
         {...page.frontmatter}
-        posts={posts.edges.map(post => ({
-          ...post.node,
-          ...post.node.frontmatter,
-          ...post.node.fields
-        }))}
-        artists={artists.edges.map(artist => ({
-          title: artist.node.frontmatter.title,
-          slug: artist.node.fields.slug
-        }))}
+        artists={artistsList}
       />
     </Layout>
   )
@@ -226,6 +157,18 @@ export const pageQuery = graphql`
       }
     }
 
+    # Query for Contentful banner image
+    bannerImage: allContentfulHomeBanner(limit: 1) {
+      edges {
+        node {
+          bannerImage {
+            url
+            title
+          }
+        }
+      }
+    }
+
     posts: allMarkdownRemark(
       filter: { fields: { contentType: { eq: "posts" } } }
       sort: { order: DESC, fields: [frontmatter___date] }
@@ -258,6 +201,18 @@ export const pageQuery = graphql`
           frontmatter {
             title
           }
+        }
+      }
+    }
+
+    # Query for Contentful artists
+    contentfulArtists: allContentfulArtist(
+      sort: { fields: [title], order: ASC }
+    ) {
+      edges {
+        node {
+          title
+          slug
         }
       }
     }
