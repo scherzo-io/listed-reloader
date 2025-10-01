@@ -23,11 +23,15 @@ export const HomePageTemplate = ({
                 
                 <div style={{ textAlign: 'center' }}>
                   <p>
-                    {artists.map(artist => (
-                      <a style={{ marginRight: '1em' }} key={artist.slug} href={artist.slug}>
-                        {artist.title.trim()}
-                      </a>
-                    ))}
+                    {artists && artists.length > 0 ? (
+                      artists.map(artist => (
+                        <a style={{ marginRight: '1em' }} key={artist.slug} href={artist.slug}>
+                          {artist.title ? artist.title.trim() : ''}
+                        </a>
+                      ))
+                    ) : (
+                      <span>No artists available</span>
+                    )}
                   </p>
                 </div>
                 <div className="dropdown">
@@ -41,16 +45,20 @@ export const HomePageTemplate = ({
                 </div>
               </div>
               
-              <h1> {listedmix}</h1>
-              <iframe
-                title="listed-playlist"
-                width="100%"
-                height="300"
-                scrolling="no"
-                frameBorder="no"
-                allow="autoplay"
-                src={listedmixlk}
-              ></iframe>
+              <div className="playlist-section">
+                <h1> {listedmix}</h1>
+                <div className="iframe-container">
+                  <iframe
+                    title="listed-playlist"
+                    width="100%"
+                    height="300"
+                    scrolling="no"
+                    frameBorder="no"
+                    allow="autoplay"
+                    src={listedmixlk}
+                  ></iframe>
+                </div>
+              </div>
               
               <div
                 className="ctct-inline-form"
@@ -66,17 +74,65 @@ export const HomePageTemplate = ({
 
 function SlideContent({ url }) {
   const [type, setType] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  
   useEffect(() => {
-    getType(url)
-  }, [])
-  async function getType(url) {
-    const res = await fetch(url)
-    setType(res.headers.get('Content-Type'))
-  }
+    async function getType() {
+      if (!url) {
+        setIsLoading(false);
+        return;
+      }
+      
+      // Check if it's a direct image URL by extension
+      const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+      const videoExtensions = ['.mp4', '.webm', '.ogg'];
+      const urlLower = url.toLowerCase();
+      
+      if (imageExtensions.some(ext => urlLower.includes(ext))) {
+        setType('image');
+        setIsLoading(false);
+        return;
+      }
+      
+      if (videoExtensions.some(ext => urlLower.includes(ext))) {
+        setType('video');
+        setIsLoading(false);
+        return;
+      }
+      
+      // Default to image for ucarecdn URLs (they don't always have extensions)
+      if (url.includes('ucarecdn.com')) {
+        setType('image');
+        setIsLoading(false);
+        return;
+      }
+      
+      // If no extension match, try to fetch headers
+      try {
+        const res = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+        const contentType = res.headers.get('Content-Type');
+        if (contentType) {
+          if (contentType.includes('image')) setType('image');
+          else if (contentType.includes('video')) setType('video');
+        } else {
+          setType('image'); // Default to image
+        }
+      } catch (error) {
+        // Default to image if fetch fails
+        setType('image');
+      }
+      setIsLoading(false);
+    }
+    
+    getType();
+  }, [url])
+  
+  if (!url || isLoading) return null;
+  
   return (
     <>
-      {type && type.includes('image') && <img src={url} />}
-      {type && type.includes('video') && <video controls src={url}></video>}
+      {type === 'image' && <img src={url} alt="Banner" />}
+      {type === 'video' && <video controls src={url}></video>}
     </>
   )
 }
@@ -169,25 +225,6 @@ export const pageQuery = graphql`
       }
     }
 
-    posts: allMarkdownRemark(
-      filter: { fields: { contentType: { eq: "posts" } } }
-      sort: { order: DESC, fields: [frontmatter___date] }
-    ) {
-      edges {
-        node {
-          excerpt
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            url
-            date
-            featuredImage
-          }
-        }
-      }
-    }
 
     artists: allMarkdownRemark(
       filter: { fields: { contentType: { eq: "artists" } } }

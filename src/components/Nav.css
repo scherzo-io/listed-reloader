@@ -177,6 +177,11 @@
   .dropmenu>ul{
     display: none;
   }
+  
+  /* Hide social icons on mobile to save space */
+  .smedialinks {
+    display: none;
+  }
 
   .Nav--MenuButton {
     display: block !important;

@@ -30,6 +30,23 @@
 /* Import Fonts */
 @import url('https://fonts.googleapis.com/css?family=Cabin:400,400i,700,700i&display=swap');
 
+/* DIN Font Face */
+@font-face {
+  font-family: 'dinBoldFont';
+  src: url('/fonts/din1451alt.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'dinBoldFont';
+  src: url('/fonts/din1451altG.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 
 /* Button Skew Fix */
@@ -44,7 +61,11 @@ html {
   font-size: 53.5%;
   min-height: 100%;
   background-image: url("/images/bg1.jpg");
-  background-size: 100% 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* Improve scrolling performance on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -290,4 +311,102 @@ blockquote {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* =====================================================
+   MOBILE OPTIMIZATIONS
+   ===================================================== */
+
+@media (max-width: 768px) {
+  /* Improve touch targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better font sizes for readability */
+  body {
+    font-size: 1.6rem;
+    line-height: 1.5;
+  }
+  
+  /* Optimize background for mobile */
+  html {
+    background-attachment: scroll; /* Fixed backgrounds can cause performance issues */
+  }
+  
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better spacing for touch */
+  .container {
+    padding: 0 1rem;
+  }
+  
+  /* Improve form usability - prevent zoom on iOS */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Better image handling */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Optimize iframes */
+  iframe {
+    max-width: 100%;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  /* Smaller font adjustments */
+  h1 {
+    font-size: 2.4rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.8rem;
+  }
+  
+  /* Optimize spacing */
+  section {
+    padding: 2rem 0;
+  }
+  
+  /* Buttons full width on mobile */
+  .Button {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .Nav {
+    position: relative;
+    height: auto;
+  }
+  
+  .fixcenter {
+    margin-top: 1rem;
+  }
+  
+  /* Reduce vertical padding in landscape */
+  .section {
+    padding: 1rem 0;
+  }
 }

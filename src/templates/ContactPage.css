@@ -43,3 +43,51 @@
     width: calc(50% - 2rem);
   }
 }
+
+/* Mobile optimizations for Contact page */
+@media (max-width: 749px) {
+  .Contact {
+    padding: 1rem;
+  }
+  
+  .Contact h1 {
+    font-size: 2.4rem;
+    padding-left: 20px;
+    background-size: contain;
+  }
+  
+  .Contact--Details--Item {
+    font-size: 1.4rem;
+    padding: 1.5rem 0;
+  }
+  
+  .Contact--Details--Item svg {
+    margin-right: 1rem;
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Form inputs mobile optimization */
+  .Form input,
+  .Form textarea,
+  .Form select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .Form--Label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .Form--Group {
+    margin-bottom: 2rem;
+  }
+  
+  .Button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+  }
+}
