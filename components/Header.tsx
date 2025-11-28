@@ -34,17 +34,17 @@ export default function Header() {
       left: 0,
       right: 0,
       height: isMobile ? '60px' : '70px',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      backdropFilter: 'blur(10px)',
+      backgroundColor: 'black',
       zIndex: 1000,
-      borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      borderBottom: '1px solid black'
     }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '100%',
-        padding: '0 20px'
+        marginLeft: isMobile ? '20px' : '69px',
+        marginRight: isMobile ? '20px' : '69px'
       }}>
         {/* Logo */}
         <Link href="/" style={{
@@ -53,27 +53,21 @@ export default function Header() {
           textDecoration: 'none'
         }}>
           <Image
-            src="/images/logo.png"
+            src="/images/llogo.png"
             alt="Listed Productions"
-            width={isMobile ? 40 : 50}
-            height={isMobile ? 40 : 50}
-            style={{ marginRight: '10px' }}
+            width={isMobile ? 100 : 140}
+            height={isMobile ? 36 : 50}
+            priority
+            style={{ objectFit: 'contain' }}
           />
-          <span style={{
-            fontFamily: "'dinBoldFont', sans-serif",
-            fontSize: isMobile ? '1.8rem' : '2.2rem',
-            color: '#ffffff',
-            letterSpacing: '2px'
-          }}>
-            LISTED
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
         {!isMobile && (
           <nav style={{
             display: 'flex',
-            gap: '30px'
+            gap: '35px',
+            alignItems: 'center'
           }}>
             {navItems.map((item) => (
               <Link
@@ -81,27 +75,16 @@ export default function Header() {
                 href={item.href}
                 id={item.id}
                 style={{
-                  fontFamily: "'dinFont', sans-serif",
-                  fontSize: '1.6rem',
-                  color: pathname === item.href ? '#f8ec21' : '#ffffff',
+                  fontFamily: "'dinBoldFont', sans-serif",
+                  fontSize: '2.2rem',
+                  color: '#ffffff',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  letterSpacing: '1px',
+                  letterSpacing: '0.5px',
                   transition: 'color 0.3s ease',
-                  position: 'relative'
                 }}
               >
                 {item.label}
-                {pathname === item.href && (
-                  <span style={{
-                    position: 'absolute',
-                    bottom: '-5px',
-                    left: 0,
-                    right: 0,
-                    height: '2px',
-                    backgroundColor: '#f8ec21'
-                  }} />
-                )}
               </Link>
             ))}
           </nav>
@@ -118,32 +101,32 @@ export default function Header() {
               padding: '10px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '4px'
+              gap: '5px'
             }}
           >
             <span style={{
               display: 'block',
-              width: '25px',
-              height: '2px',
+              width: '30px',
+              height: '3px',
               backgroundColor: '#ffffff',
-              transition: 'transform 0.3s ease',
-              transform: isOpen ? 'rotate(45deg) translateY(6px)' : 'none'
+              transition: 'all 0.3s ease',
+              transform: isOpen ? 'rotate(45deg) translateY(8px)' : 'none'
             }} />
             <span style={{
               display: 'block',
-              width: '25px',
-              height: '2px',
+              width: '30px',
+              height: '3px',
               backgroundColor: '#ffffff',
               opacity: isOpen ? 0 : 1,
               transition: 'opacity 0.3s ease'
             }} />
             <span style={{
               display: 'block',
-              width: '25px',
-              height: '2px',
+              width: '30px',
+              height: '3px',
               backgroundColor: '#ffffff',
-              transition: 'transform 0.3s ease',
-              transform: isOpen ? 'rotate(-45deg) translateY(-6px)' : 'none'
+              transition: 'all 0.3s ease',
+              transform: isOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'
             }} />
           </button>
         )}
@@ -156,9 +139,8 @@ export default function Header() {
           top: '60px',
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.95)',
-          backdropFilter: 'blur(10px)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          backgroundColor: 'black',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
         }}>
           <nav style={{
             display: 'flex',
@@ -169,16 +151,17 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                id={item.id}
                 onClick={() => setIsOpen(false)}
                 style={{
-                  fontFamily: "'dinFont', sans-serif",
+                  fontFamily: "'dinBoldFont', sans-serif",
                   fontSize: '1.8rem',
-                  color: pathname === item.href ? '#f8ec21' : '#ffffff',
+                  color: '#ffffff',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  padding: '15px 0',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                  letterSpacing: '0.5px',
+                  padding: '12px 0',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
                   transition: 'color 0.3s ease'
                 }}
               >

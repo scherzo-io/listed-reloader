@@ -76,7 +76,7 @@ export default function ArtistsPage() {
   };
 
   return (
-    <div className="container-custom" style={{ marginTop: isMobile ? '60px' : '70px' }}>
+    <div className="container-custom" style={{ marginTop: '80px' }}>
       <h1 style={{ marginBottom: '40px' }}>ARTISTS</h1>
       <section style={{ marginBottom: '60px' }}>
         <div style={{
