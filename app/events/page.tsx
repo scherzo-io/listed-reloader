@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getEvents, getContentfulImageUrl } from '@/lib/contentful';
+import { getEvents } from '@/lib/strapi';
 
 export default function EventsPage() {
   const [events, setEvents] = useState<any[]>([]);

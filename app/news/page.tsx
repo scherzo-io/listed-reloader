@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getPosts, getContentfulImageUrl } from '@/lib/contentful';
+import { getPosts } from '@/lib/strapi';
 
 export default function NewsPage() {
   const [posts, setPosts] = useState<any[]>([]);

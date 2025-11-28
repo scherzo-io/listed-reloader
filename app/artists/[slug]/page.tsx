@@ -180,7 +180,7 @@ export default function ArtistPage() {
             ></div>
             {imageUrl ? (
               <Image
-                src={getContentfulImageUrl(imageUrl)}
+                src={getStrapiImageUrl(imageUrl)}
                 alt={artist.attributes.name}
                 width={1200}
                 height={800}

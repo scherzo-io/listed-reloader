@@ -4,23 +4,30 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images.ctfassets.net',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
       },
       {
         protocol: 'https',
-        hostname: 'downloads.ctfassets.net',
-      },
-      {
-        protocol: 'https',
-        hostname: 'videos.ctfassets.net',
+        hostname: 'res.cloudinary.com',
       },
       {
         protocol: 'https',
         hostname: 'ucarecdn.com',
       },
+      // Add your production Strapi domain here when deployed
+      // {
+      //   protocol: 'https',
+      //   hostname: 'your-strapi-domain.com',
+      // },
     ],
   },
+  // Disable image optimization for Vercel if on free tier
+  // images: {
+  //   unoptimized: true,
+  // },
 };
 
 export default nextConfig;
