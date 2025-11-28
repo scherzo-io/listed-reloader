@@ -1,0 +1,19 @@
+{
+  "app": {
+    "[project]/new/nextjs-site/app/artists/[slug]/page": [
+      "static/media/05118ed855756795-s.p.c6440de0.woff2",
+      "static/media/c6cbd2fc23005612-s.p.505cf2f5.woff2"
+    ],
+    "[project]/new/nextjs-site/app/artists/page": [
+      "static/media/05118ed855756795-s.p.c6440de0.woff2",
+      "static/media/c6cbd2fc23005612-s.p.505cf2f5.woff2"
+    ],
+    "[project]/new/nextjs-site/app/page": [
+      "static/media/05118ed855756795-s.p.c6440de0.woff2",
+      "static/media/c6cbd2fc23005612-s.p.505cf2f5.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

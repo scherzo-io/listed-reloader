@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/artists/[slug]/page": "/artists/[slug]",
+  "/artists/page": "/artists",
+  "/contact/page": "/contact",
+  "/events/page": "/events",
+  "/favicon.ico/route": "/favicon.ico",
+  "/news/page": "/news",
+  "/page": "/",
+  "/productions/page": "/productions"
+}
