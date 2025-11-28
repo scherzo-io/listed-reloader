@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getPosts, getArtists, getContentfulImageUrl } from '@/lib/contentful';
+import { getPosts, getArtists } from '@/lib/contentful';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -16,109 +16,97 @@ const imageSlides = [
   'https://ucarecdn.com/15d81712-a4ae-4154-b161-574b784c87c3/'
 ];
 
-// Sample posts data (fallback when Contentful is not configured)
+// Sample posts data (matching the format from contentful.ts)
 const samplePosts = [
   {
-    sys: { 
-      id: '1', 
-      createdAt: '2021-11-19T00:00:00Z',
-      updatedAt: '2021-11-19T00:00:00Z'
-    },
-    fields: {
+    id: '1',
+    attributes: {
       title: 'Art With Me Miami',
       slug: 'art-with-me-miami',
+      createdAt: '2021-11-19T00:00:00Z',
       excerpt: 'Listed Productions brings the underground vibe to Miami Beach.',
-      featuredImage: {
-        fields: {
-          title: 'Art With Me Miami',
-          file: { url: '/images/mainone.png' }
-        },
-        sys: { id: 'img1' }
-      },
-      category: 'News',
-      publishDate: '2021-11-19T00:00:00Z'
+      content: 'Full article content here',
+      image: {
+        data: {
+          attributes: {
+            url: '/images/mainone.png'
+          }
+        }
+      }
     }
   },
   {
-    sys: { 
-      id: '2',
-      createdAt: '2021-12-31T00:00:00Z',
-      updatedAt: '2021-12-31T00:00:00Z'
-    },
-    fields: {
+    id: '2',
+    attributes: {
       title: 'Lee Coombs Live at The Cityfox Odyssey NYE',
       slug: 'lee-coombs-cityfox',
+      createdAt: '2021-12-31T00:00:00Z',
       excerpt: 'An unforgettable New Year\'s Eve performance.',
-      featuredImage: {
-        fields: {
-          title: 'Lee Coombs',
-          file: { url: '/images/Sinca.jpeg' }
-        },
-        sys: { id: 'img2' }
-      },
-      category: 'News',
-      publishDate: '2021-12-31T00:00:00Z'
+      content: 'Full article content here',
+      image: {
+        data: {
+          attributes: {
+            url: '/images/Sinca.jpeg'
+          }
+        }
+      }
     }
   },
   {
-    sys: { 
-      id: '3',
-      createdAt: '2021-09-29T00:00:00Z',
-      updatedAt: '2021-09-29T00:00:00Z'
-    },
-    fields: {
+    id: '3',
+    attributes: {
       title: 'The Real Deal Party Feel Feat. Atish',
       slug: 'real-deal-atish',
+      createdAt: '2021-09-29T00:00:00Z',
       excerpt: 'A marathon session with Listed friends.',
-      featuredImage: {
-        fields: {
-          title: 'Atish',
-          file: { url: '/images/camea.png' }
-        },
-        sys: { id: 'img3' }
-      },
-      category: 'News',
-      publishDate: '2021-09-29T00:00:00Z'
+      content: 'Full article content here',
+      image: {
+        data: {
+          attributes: {
+            url: '/images/camea.png'
+          }
+        }
+      }
     }
   }
 ];
 
 // Sample artists data (fallback when Contentful is not configured)
 const sampleArtists = [
-  { sys: { id: '1' }, fields: { name: 'Atish', slug: 'atish' } },
-  { sys: { id: '2' }, fields: { name: 'Ben Annand', slug: 'ben-annand' } },
-  { sys: { id: '3' }, fields: { name: 'Dory', slug: 'dory' } },
-  { sys: { id: '4' }, fields: { name: 'Halo Varga', slug: 'halo-varga' } },
-  { sys: { id: '5' }, fields: { name: 'Jay Tripwire', slug: 'jay-tripwire' } },
-  { sys: { id: '6' }, fields: { name: 'Justin Marchacos', slug: 'justin-marchacos' } },
-  { sys: { id: '7' }, fields: { name: 'KMLN', slug: 'kmln' } },
-  { sys: { id: '8' }, fields: { name: 'Lovestruckk', slug: 'lovestruckk' } },
-  { sys: { id: '9' }, fields: { name: 'M.O.N.R.O.E', slug: 'm-o-n-r-o-e' } },
-  { sys: { id: '10' }, fields: { name: 'Mark Slee', slug: 'mark-slee' } },
-  { sys: { id: '11' }, fields: { name: 'Maxi Storrs', slug: 'maxi-storrs' } },
-  { sys: { id: '12' }, fields: { name: 'Mightykat', slug: 'mightykat' } },
-  { sys: { id: '13' }, fields: { name: 'Mr. C', slug: 'mr-c' } },
-  { sys: { id: '14' }, fields: { name: 'Naveen G', slug: 'naveen-g' } },
-  { sys: { id: '15' }, fields: { name: 'Nico Stojan', slug: 'nico-stojan' } },
-  { sys: { id: '16' }, fields: { name: 'Nikita', slug: 'nikita' } },
-  { sys: { id: '17' }, fields: { name: 'Holmar', slug: 'holmar' } },
-  { sys: { id: '18' }, fields: { name: 'Galen', slug: 'galen' } },
-  { sys: { id: '19' }, fields: { name: 'Nitin', slug: 'nitin' } },
-  { sys: { id: '20' }, fields: { name: 'Bilaliwood', slug: 'bilaliwood' } },
-  { sys: { id: '21' }, fields: { name: 'H-Foundation', slug: 'h-foundation' } },
-  { sys: { id: '22' }, fields: { name: 'Ray Zuniga', slug: 'ray-zuniga' } },
-  { sys: { id: '23' }, fields: { name: 'Philipp Jung', slug: 'philipp-jung' } },
-  { sys: { id: '24' }, fields: { name: 'Anja Schneider', slug: 'anja-schneider' } },
-  { sys: { id: '25' }, fields: { name: 'Atnarko', slug: 'atnarko' } },
-  { sys: { id: '26' }, fields: { name: 'Sinca', slug: 'sinca' } },
-  { sys: { id: '27' }, fields: { name: 'N/UM', slug: 'n-um' } },
-  { sys: { id: '28' }, fields: { name: 'Matt Caines', slug: 'matt-caines' } },
-  { sys: { id: '29' }, fields: { name: 'Reza Safinia', slug: 'reza-safinia' } },
-  { sys: { id: '30' }, fields: { name: 'Saqib', slug: 'saqib' } },
-  { sys: { id: '31' }, fields: { name: 'Beauty & The Beast', slug: 'beauty-the-beast' } },
-  { sys: { id: '32' }, fields: { name: 'Formerly', slug: 'formerly' } },
-  { sys: { id: '33' }, fields: { name: 'Camea', slug: 'camea' } },
-  { sys: { id: '34' }, fields: { name: 'Niki Sadeki', slug: 'niki-sadeki' } }
+  { id: '1', attributes: { name: 'Atish', slug: 'atish' } },
+  { id: '2', attributes: { name: 'Ben Annand', slug: 'ben-annand' } },
+  { id: '3', attributes: { name: 'Dory', slug: 'dory' } },
+  { id: '4', attributes: { name: 'Halo Varga', slug: 'halo-varga' } },
+  { id: '5', attributes: { name: 'Jay Tripwire', slug: 'jay-tripwire' } },
+  { id: '6', attributes: { name: 'Justin Marchacos', slug: 'justin-marchacos' } },
+  { id: '7', attributes: { name: 'KMLN', slug: 'kmln' } },
+  { id: '8', attributes: { name: 'Lovestruckk', slug: 'lovestruckk' } },
+  { id: '9', attributes: { name: 'M.O.N.R.O.E', slug: 'm-o-n-r-o-e' } },
+  { id: '10', attributes: { name: 'Mark Slee', slug: 'mark-slee' } },
+  { id: '11', attributes: { name: 'Maxi Storrs', slug: 'maxi-storrs' } },
+  { id: '12', attributes: { name: 'Mightykat', slug: 'mightykat' } },
+  { id: '13', attributes: { name: 'Mr. C', slug: 'mr-c' } },
+  { id: '14', attributes: { name: 'Naveen G', slug: 'naveen-g' } },
+  { id: '15', attributes: { name: 'Nico Stojan', slug: 'nico-stojan' } },
+  { id: '16', attributes: { name: 'Nikita', slug: 'nikita' } },
+  { id: '17', attributes: { name: 'Holmar', slug: 'holmar' } },
+  { id: '18', attributes: { name: 'Galen', slug: 'galen' } },
+  { id: '19', attributes: { name: 'Nitin', slug: 'nitin' } },
+  { id: '20', attributes: { name: 'Bilaliwood', slug: 'bilaliwood' } },
+  { id: '21', attributes: { name: 'H-Foundation', slug: 'h-foundation' } },
+  { id: '22', attributes: { name: 'Ray Zuniga', slug: 'ray-zuniga' } },
+  { id: '23', attributes: { name: 'Philipp Jung', slug: 'philipp-jung' } },
+  { id: '24', attributes: { name: 'Anja Schneider', slug: 'anja-schneider' } },
+  { id: '25', attributes: { name: 'Atnarko', slug: 'atnarko' } },
+  { id: '26', attributes: { name: 'Sinca', slug: 'sinca' } },
+  { id: '27', attributes: { name: 'N/UM', slug: 'n-um' } },
+  { id: '28', attributes: { name: 'Matt Caines', slug: 'matt-caines' } },
+  { id: '29', attributes: { name: 'Reza Safinia', slug: 'reza-safinia' } },
+  { id: '30', attributes: { name: 'Saqib', slug: 'saqib' } },
+  { id: '31', attributes: { name: 'Beauty & The Beast', slug: 'beauty-the-beast' } },
+  { id: '32', attributes: { name: 'Formerly', slug: 'formerly' } },
+  { id: '33', attributes: { name: 'Camea', slug: 'camea' } },
+  { id: '34', attributes: { name: 'Niki Sadeki', slug: 'niki-sadeki' } }
 ];
 
 const listedMixLink = "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1187392201&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true";
@@ -222,8 +210,8 @@ export default function HomePage() {
           }}>
             {posts.slice(0, visiblePosts).map((post) => (
               <Link 
-                key={post.sys.id} 
-                href={`/news/${post.fields.slug}`}
+                key={post.id} 
+                href={`/news/${post.attributes.slug}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <article className="PostCard" style={{
@@ -245,7 +233,7 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
                 >
-                  {post.fields.featuredImage && (
+                  {post.attributes.image?.data?.attributes?.url && (
                     <div style={{
                       width: '100%',
                       height: '200px',
@@ -254,8 +242,8 @@ export default function HomePage() {
                       borderRadius: '4px'
                     }}>
                       <img
-                        src={getContentfulImageUrl(post.fields.featuredImage)}
-                        alt={post.fields.title}
+                        src={post.attributes.image.data.attributes.url}
+                        alt={post.attributes.title}
                         style={{
                           width: '100%',
                           height: '100%',
@@ -269,14 +257,14 @@ export default function HomePage() {
                     marginBottom: '1rem',
                     color: '#ffffff' 
                   }}>
-                    {post.fields.title}
+                    {post.attributes.title}
                   </h3>
                   <p style={{ 
                     color: 'rgba(255,255,255,0.6)', 
                     fontSize: '1.2rem',
                     marginBottom: '1rem' 
                   }}>
-                    {formatDate(post.fields.publishDate || post.sys.createdAt)}
+                    {formatDate(post.attributes.createdAt)}
                   </p>
                   <p style={{ 
                     flexGrow: 1,
@@ -284,7 +272,7 @@ export default function HomePage() {
                     fontSize: '1.4rem',
                     lineHeight: '1.6' 
                   }}>
-                    {post.fields.excerpt}
+                    {post.attributes.excerpt}
                   </p>
                   <div style={{
                     marginTop: '1rem',
@@ -339,12 +327,12 @@ export default function HomePage() {
         }}>
           {artists.map((artist, index) => (
             <Link
-              key={artist.sys.id}
-              href={`/artists/${artist.fields.slug}`}
+              key={artist.id}
+              href={`/artists/${artist.attributes.slug}`}
               className={getArtistLinkColorClass(index)}
               style={{ marginRight: '1em', textDecoration: 'none' }}
             >
-              {artist.fields.name.trim()}
+              {artist.attributes.name.trim()}
             </Link>
           ))}
         </p>

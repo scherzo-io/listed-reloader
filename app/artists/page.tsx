@@ -22,38 +22,47 @@ export default function ArtistsPage() {
     getArtists().then(setArtists);
   }, []);
 
-  // Sample artists data if Contentful is not connected
+  // Sample artists data if no data source is connected
   const sampleArtists = [
     { 
-      sys: { id: '1' }, 
-      fields: { 
+      id: 1,
+      attributes: { 
         name: 'Sinca', 
         slug: 'sinca', 
-        image: { 
-          fields: { title: 'Sinca', file: { url: '/images/Sinca.jpeg' } },
-          sys: { id: 'img1' }
+        image: {
+          data: {
+            attributes: {
+              url: '/images/Sinca.jpeg'
+            }
+          }
         }
       }
     },
     { 
-      sys: { id: '2' }, 
-      fields: { 
+      id: 2,
+      attributes: { 
         name: 'Camea', 
         slug: 'camea', 
         image: {
-          fields: { title: 'Camea', file: { url: '/images/camea.png' } },
-          sys: { id: 'img2' }
+          data: {
+            attributes: {
+              url: '/images/camea.png'
+            }
+          }
         }
       }
     },
     { 
-      sys: { id: '3' }, 
-      fields: { 
+      id: 3,
+      attributes: { 
         name: 'Atish', 
         slug: 'atish', 
         image: {
-          fields: { title: 'Atish', file: { url: '/images/mainone.png' } },
-          sys: { id: 'img3' }
+          data: {
+            attributes: {
+              url: '/images/mainone.png'
+            }
+          }
         }
       }
     }
@@ -79,8 +88,8 @@ export default function ArtistsPage() {
         }}>
           {displayArtists.map((artist: any, index: number) => (
             <Link
-              key={artist.sys.id}
-              href={`/artists/${artist.fields.slug}`}
+              key={artist.id}
+              href={`/artists/${artist.attributes.slug}`}
               style={{
                 display: 'block',
                 textAlign: 'center',
@@ -100,10 +109,10 @@ export default function ArtistsPage() {
                 borderRadius: '8px',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
               }}>
-                {artist.fields.image ? (
+                {artist.attributes.image ? (
                   <Image
-                    src={getContentfulImageUrl(artist.fields.image)}
-                    alt={artist.fields.name}
+                    src={getContentfulImageUrl(artist.attributes.image)}
+                    alt={artist.attributes.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
                     style={{ objectFit: 'cover' }}
@@ -124,7 +133,7 @@ export default function ArtistsPage() {
                 )}
               </div>
               <h2 style={{ fontSize: '2rem', fontFamily: "'dinBoldFont', sans-serif", margin: '0' }}>
-                {artist.fields.name}
+                {artist.attributes.name}
               </h2>
             </Link>
           ))}

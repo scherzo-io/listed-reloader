@@ -31,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cabin.variable}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cabin.variable} suppressHydrationWarning>
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
           <Header />
           <main style={{ flexGrow: 1 }}>
