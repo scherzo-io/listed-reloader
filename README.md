@@ -1,4 +1,5 @@
 # Listed Productions - Next.js Site
+<!-- Last updated: November 28, 2024 -->
 
 ## Overview
 Modern website for Listed Productions built with Next.js 15, TypeScript, and React.
