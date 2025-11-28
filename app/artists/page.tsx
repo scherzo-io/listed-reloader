@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { getArtists, getStrapiImageUrl, Artist } from '@/lib/strapi';
+import { getArtists, getContentfulImageUrl, Artist } from '@/lib/contentful';
 
 export default function ArtistsPage() {
   const [artists, setArtists] = useState<Artist[]>([]);
@@ -22,11 +22,41 @@ export default function ArtistsPage() {
     getArtists().then(setArtists);
   }, []);
 
-  // Sample artists data if Strapi is not connected
+  // Sample artists data if Contentful is not connected
   const sampleArtists = [
-    { id: 1, attributes: { name: 'Sinca', slug: 'sinca', image: { data: { attributes: { url: '/images/Sinca.jpeg' } } } } },
-    { id: 2, attributes: { name: 'Camea', slug: 'camea', image: { data: { attributes: { url: '/images/camea.png' } } } } },
-    { id: 3, attributes: { name: 'Atish', slug: 'atish', image: { data: { attributes: { url: '/images/mainone.png' } } } } },
+    { 
+      sys: { id: '1' }, 
+      fields: { 
+        name: 'Sinca', 
+        slug: 'sinca', 
+        image: { 
+          fields: { title: 'Sinca', file: { url: '/images/Sinca.jpeg' } },
+          sys: { id: 'img1' }
+        }
+      }
+    },
+    { 
+      sys: { id: '2' }, 
+      fields: { 
+        name: 'Camea', 
+        slug: 'camea', 
+        image: {
+          fields: { title: 'Camea', file: { url: '/images/camea.png' } },
+          sys: { id: 'img2' }
+        }
+      }
+    },
+    { 
+      sys: { id: '3' }, 
+      fields: { 
+        name: 'Atish', 
+        slug: 'atish', 
+        image: {
+          fields: { title: 'Atish', file: { url: '/images/mainone.png' } },
+          sys: { id: 'img3' }
+        }
+      }
+    }
   ];
 
   const displayArtists = artists.length > 0 ? artists : sampleArtists;
@@ -49,8 +79,8 @@ export default function ArtistsPage() {
         }}>
           {displayArtists.map((artist: any, index: number) => (
             <Link
-              key={index}
-              href={`/artists/${artist.attributes.slug}`}
+              key={artist.sys.id}
+              href={`/artists/${artist.fields.slug}`}
               style={{
                 display: 'block',
                 textAlign: 'center',
@@ -70,10 +100,10 @@ export default function ArtistsPage() {
                 borderRadius: '8px',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
               }}>
-                {artist.attributes.image ? (
+                {artist.fields.image ? (
                   <Image
-                    src={getStrapiImageUrl(artist.attributes.image)}
-                    alt={artist.attributes.name}
+                    src={getContentfulImageUrl(artist.fields.image)}
+                    alt={artist.fields.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
                     style={{ objectFit: 'cover' }}
@@ -94,7 +124,7 @@ export default function ArtistsPage() {
                 )}
               </div>
               <h2 style={{ fontSize: '2rem', fontFamily: "'dinBoldFont', sans-serif", margin: '0' }}>
-                {artist.attributes.name}
+                {artist.fields.name}
               </h2>
             </Link>
           ))}

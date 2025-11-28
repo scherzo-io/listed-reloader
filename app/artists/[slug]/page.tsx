@@ -4,42 +4,54 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getArtistBySlug, getStrapiImageUrl } from '@/lib/strapi';
+import { getArtistBySlug, getContentfulImageUrl } from '@/lib/contentful';
 import { FaSoundcloud, FaInstagram, FaSpotify, FaFacebookF } from 'react-icons/fa';
 import { SiDiscogs } from 'react-icons/si'; // Using Discogs as alternative for RA
 
-// Sample data for demonstration if Strapi is not connected
+// Sample data for demonstration if Contentful is not connected
 const sampleArtistData: { [key: string]: any } = {
   'sinca': {
-    name: 'Sinca',
-    bio: 'Sinca is a rising star in the San Francisco electronic music scene...',
-    image: { data: { attributes: { url: '/images/Sinca.jpeg' } } },
-    soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
-    video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    socialLinks: {
-      soundcloud: 'https://soundcloud.com',
+    sys: { id: 'sinca-1' },
+    fields: {
+      name: 'Sinca',
+      slug: 'sinca',
+      bio: 'Sinca is a rising star in the San Francisco electronic music scene...',
+      image: {
+        fields: { title: 'Sinca', file: { url: '/images/Sinca.jpeg' } },
+        sys: { id: 'img-sinca' }
+      },
+      soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       instagram: 'https://instagram.com'
     }
   },
   'camea': {
-    name: 'Camea',
-    bio: 'Camea is known for her deep, hypnotic techno sets...',
-    image: { data: { attributes: { url: '/images/camea.png' } } },
-    soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
-    socialLinks: {
-      soundcloud: 'https://soundcloud.com',
+    sys: { id: 'camea-1' },
+    fields: {
+      name: 'Camea',
+      slug: 'camea',
+      bio: 'Camea is known for her deep, hypnotic techno sets...',
+      image: {
+        fields: { title: 'Camea', file: { url: '/images/camea.png' } },
+        sys: { id: 'img-camea' }
+      },
+      soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
       instagram: 'https://instagram.com',
       residentAdvisor: 'https://ra.co'
     }
   },
   'atish': {
-    name: 'Atish',
-    bio: 'Atish brings a unique blend of house and techno...',
-    image: { data: { attributes: { url: '/images/mainone.png' } } },
-    soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
-    video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    socialLinks: {
-      soundcloud: 'https://soundcloud.com',
+    sys: { id: 'atish-1' },
+    fields: {
+      name: 'Atish',
+      slug: 'atish',
+      bio: 'Atish brings a unique blend of house and techno...',
+      image: {
+        fields: { title: 'Atish', file: { url: '/images/mainone.png' } },
+        sys: { id: 'img-atish' }
+      },
+      soundcloud: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       instagram: 'https://instagram.com',
       spotify: 'https://spotify.com'
     }
@@ -168,7 +180,7 @@ export default function ArtistPage() {
             ></div>
             {imageUrl ? (
               <Image
-                src={getStrapiImageUrl(imageUrl)}
+                src={getContentfulImageUrl(imageUrl)}
                 alt={artist.attributes.name}
                 width={1200}
                 height={800}
